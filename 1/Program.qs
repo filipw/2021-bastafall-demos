@@ -31,7 +31,7 @@
         // beam splitter
         H(photon);
 
-        // result is random
+        // result is a random Zero or One
         let detectorResult = M(photon) == Zero ? "d2" | "d1";
 
         Message(detectorResult);
@@ -62,7 +62,7 @@
         // beam splitter
         H(photon);
 
-        // observe using the QND
+        // observe using the QND - it is a random Zero or One
         let qndResult = M(photon) == Zero ? "q2" | "q1";
 
         // second beam splitter
