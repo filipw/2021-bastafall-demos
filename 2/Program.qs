@@ -11,9 +11,7 @@
     @EntryPoint()
     operation Start() : Unit {
         TestSet(PauliZ);
-
         Message("");
-
         TestSet(PauliX);
     }
 
@@ -21,27 +19,28 @@
         Message($"Measuring in {basis}");
         Message($"Prepared spin up");
         for i in 1..10 {
-            SpinUp(basis);
+            SpinZ(basis, false); // up
         }
         Message("*********");
         Message($"Prepared spin down");
         for i in 1..10 {
-            SpinDown(basis);
+            SpinZ(basis, true); // down
         }
         Message("*********");
         Message($"Prepared spin +");
         for i in 1..10 {
-            SpinPlus(basis);
+            SpinX(basis, false); // +
         }
         Message("*********");
         Message($"Prepared spin -");
         for i in 1..10 {
-            SpinMinus(basis);
+            SpinX(basis, true); // -
         }
     }
 
-    operation SpinUp(basis : Pauli) : Unit {
+    operation SpinZ(basis : Pauli, flip : Bool) : Unit {
         use electron = Qubit();
+        if (flip) { X(electron); }
 
         let result = Measure([basis], [electron]);
 
@@ -49,19 +48,9 @@
         Reset(electron);
     }
 
-    operation SpinDown(basis : Pauli) : Unit {
+    operation SpinX(basis : Pauli, flip : Bool) : Unit {
         use electron = Qubit();
-
-        X(electron);
-
-        let result = Measure([basis], [electron]);
-
-        Message(ResolveResult(result, basis));
-        Reset(electron);
-    }
-
-    operation SpinPlus(basis : Pauli) : Unit {
-        use electron = Qubit();
+        if (flip) { X(electron); }
 
         H(electron);
     
@@ -71,23 +60,8 @@
         Reset(electron);
     }
 
-    operation SpinMinus(basis : Pauli) : Unit {
-        use electron = Qubit();
-
-        X(electron);
-        H(electron);
-
-        let result = Measure([basis], [electron]);
-
-        Message(ResolveResult(result, basis));
-        Reset(electron);
-    }
-
     function ResolveResult(result : Result, basis : Pauli) : String {
-        if (basis == PauliX) {
-            return result == Zero ? "+" | "-";
-        }
-
-        return result == Zero ? "up" | "down";
+        return basis == PauliX ? 
+            (result == Zero ? "+" | "-") | (result == Zero ? "up" | "down");
     }
 }
