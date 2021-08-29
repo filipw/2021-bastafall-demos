@@ -33,20 +33,20 @@
 
     operation ClassicallyPrepared(basis : Pauli) : Unit {
         use pair = Qubit[2];
-        Message($"{basis}: {ResultsAgree(basis, pair[0], pair[1])}");
+        Message($"{basis}: {ResultsAgree(basis, pair)}");
     }
 
     operation QuantumPrepared(basis : Pauli) : Unit {
         use pair = Qubit[2];
         PrepareEntangledState([pair[0]],[pair[1]]);
-        Message($"{basis}: {ResultsAgree(basis, pair[0], pair[1])}");
+        Message($"{basis}: {ResultsAgree(basis, pair)}");
     }
 
-    operation ResultsAgree(basis : Pauli, one : Qubit, two : Qubit) : Bool {
-        let result1 = IsResultOne(Measure([basis], [one]));
-        let result2 = IsResultOne(Measure([basis], [two]));
+    operation ResultsAgree(basis : Pauli, pair : Qubit[]) : Bool {
+        let result1 = IsResultOne(Measure([basis], [pair[0]]));
+        let result2 = IsResultOne(Measure([basis], [pair[1]]));
 
-        ResetAll([one, two]);
+        ResetAll(pair);
         return result1 == result2;
     }
 }

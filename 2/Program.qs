@@ -21,17 +21,17 @@
         for i in 1..10 {
             SpinZ(basis, false); // up
         }
-        Message("*********");
+        Message("");
         Message($"Prepared spin down");
         for i in 1..10 {
             SpinZ(basis, true); // down
         }
-        Message("*********");
+        Message("");
         Message($"Prepared spin +");
         for i in 1..10 {
             SpinX(basis, false); // +
         }
-        Message("*********");
+        Message("");
         Message($"Prepared spin -");
         for i in 1..10 {
             SpinX(basis, true); // -
