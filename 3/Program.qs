@@ -13,48 +13,34 @@
     operation Start() : Unit {
         Message("Classically configured pair");
         for i in 1..10 {
-            use (one, two) = (Qubit(), Qubit()) {
-                let correlated = ResultsAgree(PauliZ, one, two);
-                Message($"Z: {correlated}");
-            }
+            ClassicallyPrepared(PauliZ);
         }
         Message("");
         for i in 1..10 {
-            use (one, two) = (Qubit(), Qubit()){
-                let correlated = ResultsAgree(PauliX, one, two);
-                Message($"X: {correlated}");
-            }
+            ClassicallyPrepared(PauliX);
         }
         Message("");
         Message("");
         Message("Quantum configured pair");
         for i in 1..10 {
-            use (one, two) = (Qubit(), Qubit()) {
-                PrepareEntangledState([one],[two]);
-                let correlated = ResultsAgree(PauliZ, one, two);
-                Message($"Z: {correlated}");
-            }
+            QuantumPrepared(PauliZ);
         }
         Message("");
         for i in 1..10 {
-            use (one, two) = (Qubit(), Qubit()) {
-                PrepareEntangledState([one],[two]);
-                let correlated = ResultsAgree(PauliX, one, two);
-                Message($"X: {correlated}");
-            }
+            QuantumPrepared(PauliX);
         }
     }
 
-    // operation ClassicalyConfiguredPair() : (Qubit, Qubit) {
-    //     use (one, two) = (Qubit(), Qubit());
-    //     return (one, two);
-    // }
+    operation ClassicallyPrepared(basis : Pauli) : Unit {
+        use pair = Qubit[2];
+        Message($"{basis}: {ResultsAgree(basis, pair[0], pair[1])}");
+    }
 
-    // operation EntangledPair() : (Qubit, Qubit) {
-    //     use (one, two) = (Qubit(), Qubit());
-    //     PrepareEntangledState([one],[two]);
-    //     return (one, two);
-    // }
+    operation QuantumPrepared(basis : Pauli) : Unit {
+        use pair = Qubit[2];
+        PrepareEntangledState([pair[0]],[pair[1]]);
+        Message($"{basis}: {ResultsAgree(basis, pair[0], pair[1])}");
+    }
 
     operation ResultsAgree(basis : Pauli, one : Qubit, two : Qubit) : Bool {
         let result1 = IsResultOne(Measure([basis], [one]));
