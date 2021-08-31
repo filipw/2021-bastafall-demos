@@ -38,7 +38,7 @@
 
     operation QuantumPrepared(basis : Pauli) : Unit {
         use pair = Qubit[2];
-        PrepareEntangledState([pair[0]],[pair[1]]);
+        PrepareEntangledState([pair[0]], [pair[1]]);
         Message($"{basis}: {ResultsAgree(basis, pair)}");
     }
 
