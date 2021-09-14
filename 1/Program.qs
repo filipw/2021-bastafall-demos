@@ -11,34 +11,15 @@
     @EntryPoint()
     operation Start() : Unit {
         for i in 1..10 {
-            BeamSplitter();
+            MachZehnder();
         }
         Message("*********");
         for i in 1..10 {
-            MachZehnder1();
+            MachZehnderWithQND();
         }
-        Message("*********");
-        for i in 1..10 {
-            MachZehnder2();
-        }
-        Message("*********");
     }
 
-    operation BeamSplitter() : Unit {
-        // allocate a new qubit in default state
-        use photon = Qubit();
-
-        // beam splitter
-        H(photon);
-
-        // result is a random Zero or One
-        let detectorResult = M(photon) == Zero ? "d2" | "d1";
-
-        Message(detectorResult);
-        Reset(photon);
-    }
-
-    operation MachZehnder1() : Unit {
+    operation MachZehnder() : Unit {
         // allocate a new qubit in default state
         use photon = Qubit();
 
@@ -55,7 +36,7 @@
         Reset(photon);
     }
 
-    operation MachZehnder2() : Unit {
+    operation MachZehnderWithQND() : Unit {
         // allocate a new qubit in default state
         use photon = Qubit();
 

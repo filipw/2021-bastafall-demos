@@ -11,32 +11,37 @@
 
     @EntryPoint()
     operation Start() : Unit {
-        Message("Classically configured pair");
+        Message("Independent pair");
         for i in 1..10 {
-            ClassicallyPrepared(PauliZ);
+            Independent(PauliZ);
         }
+        
         Message("");
+        
         for i in 1..10 {
-            ClassicallyPrepared(PauliX);
+            Independent(PauliX);
         }
+        
         Message("");
         Message("");
-        Message("Quantum configured pair");
+
+        Message("Entangled pair");
         for i in 1..10 {
-            QuantumPrepared(PauliZ);
+            Entangled(PauliZ);
         }
+
         Message("");
         for i in 1..10 {
-            QuantumPrepared(PauliX);
+            Entangled(PauliX);
         }
     }
 
-    operation ClassicallyPrepared(basis : Pauli) : Unit {
+    operation Independent(basis : Pauli) : Unit {
         use pair = Qubit[2];
         Message($"{basis}: {ResultsAgree(basis, pair)}");
     }
 
-    operation QuantumPrepared(basis : Pauli) : Unit {
+    operation Entangled(basis : Pauli) : Unit {
         use pair = Qubit[2];
         PrepareEntangledState([pair[0]], [pair[1]]);
         Message($"{basis}: {ResultsAgree(basis, pair)}");
